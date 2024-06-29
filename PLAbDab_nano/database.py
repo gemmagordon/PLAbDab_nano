@@ -3,12 +3,12 @@ import json
 import pandas as pd
 import torch
 
-from PLAbDab_nano import DatabaseUpdate, SequenceSearch, StructureSearch
+from PLAbDab_nano import SequenceSearch, StructureSearch
 from PLAbDab_nano.database_search.util import add_url_to_data
 
-class PLAbDab_nano(DatabaseUpdate, SequenceSearch, StructureSearch):
+class PLAbDab_nano(SequenceSearch, StructureSearch):
     """
-    The main class for searching and retrieving data from the nanobody extension of the Patent and Literature Antibody Database (PLAbDab-nano). 
+    The main class for searching data from the nanobody extension of the Patent and Literature Antibody Database (PLAbDab-nano). 
     ...
     Attributes
     ----------
@@ -16,16 +16,9 @@ class PLAbDab_nano(DatabaseUpdate, SequenceSearch, StructureSearch):
         Path to local PLAbDab-nano.
     n_jobs : int
         Number of threads to use (default 5).
-    update : bool
-        Update PLAbDab-nano with new GenBank entries (default False).
-    update_models : bool
-        Update NBB2 models (default False).
-    update_search : bool
-        Update kasearch database (default False).
+
     Methods
     -------
-    update_db()
-        Update PLAbDab-nano.
     vhh_seq_search()
         Search PLAbDab-nano with KA-Search for sequences most similar to the query.
     vnar_seq_search()
@@ -42,18 +35,12 @@ class PLAbDab_nano(DatabaseUpdate, SequenceSearch, StructureSearch):
         self, 
         path_to_db, 
         n_jobs = 5, 
-        update=False, 
-        update_models = False, 
-        update_search = False, 
         **kwargs
     ):
         super().__init__()
         self.config = kwargs
         self.path_to_db = path_to_db
         self.__check_config()
-        
-        if update:
-            self.update_db(n_jobs = n_jobs, update_models=update_models, update_search=update_search)
         
         if not os.path.exists(os.path.join(self.path_to_db, "all_sequences.csv.gz")):
             raise ValueError(f"Provided path_to_db ({self.path_to_db}) does not contain an all_sequences.csv.gz file.")
