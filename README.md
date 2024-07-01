@@ -1,5 +1,5 @@
 # PLAbDab_nano
-Code for searching PLAbDab-nano **to do - remove database update code from database.py/anywhere else**
+Code for searching PLAbDab-nano 
 
 Database is currently at (need link for download before make public):
 
