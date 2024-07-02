@@ -1,6 +1,6 @@
 import numpy as np
 import numba as nb
-from PLAbDab_nano.database_search.region_definitions import *
+from PLAbDab_nano.region_definitions import *
 
 
 from ImmuneBuilder import NanoBodyBuilder2
