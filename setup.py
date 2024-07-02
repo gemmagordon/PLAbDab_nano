@@ -22,6 +22,7 @@ setup(
         'kasearch',
         'ablang',
         'pandas',
-        'pyhmmer' 
+        'pyhmmer',
+        'immunebuilder'
     ],
 )
