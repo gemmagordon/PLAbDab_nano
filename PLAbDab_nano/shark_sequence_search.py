@@ -63,7 +63,7 @@ def vnar_search(
         filtered_db = vnar_db 
 
     # Write seqs to FASTA file
-    vnar_search_path = 'PLAbDab_nano/database_search/vnar_search/'
+    vnar_search_path = 'PLAbDab_nano/vnar_search/'
     with open(str(vnar_search_path+'db.fa'), 'w') as db:
         for entry in filtered_db.iterrows():
             db.write(str('>'+entry[1]['ID']+'\n'))
