@@ -4,8 +4,31 @@ import subprocess
 import pandas as pd
 import ast
 
-from PLAbDab_nano.database_search.util import add_url_to_data
-from PLAbDab_nano.database_generate.genbank_scrape import get_vnar_annotation
+from PLAbDab_nano.util import add_url_to_data
+#from PLAbDab_nano.database_generate.genbank_scrape import get_vnar_annotation
+from PLAbDab_nano.region_definitions import *
+from PLAbDab_nano.shark_number import number_shark
+
+
+def get_vnar_annotation(seq):
+
+    '''Get CDR1 & CDR3 sequences for VNARs with language model'''
+
+    try:
+        seq = [seq, ''] # seems to bug out if directly put in str seq
+        numb = number_shark.number(seq[0:1])[0]
+
+        cdr1 = ''.join([n[1] for n in numb if int(n[0][0]) in reg_def['CDRH1']])#.replace('-','')
+        # cdr2 doesn't exist for VNAR, HV2, HV4 instead
+        cdr3 = ''.join([n[1] for n in numb if int(n[0][0]) in reg_def['CDRH3']]).replace('<EOS>','') # sometimes last token included in CDR3, these will be filtered out anyway, too short
+        cdr_seqs = {'CDRH1':cdr1,'CDRH2':'','CDRH3':cdr3}
+        cdr_lens = str(len(cdr1)) + '_|_' + str(len(cdr3))
+    
+    except Exception as e:
+        cdr_seqs, cdr_lens = {},''
+
+    return str(cdr_seqs), cdr_lens
+
 
 def get_metadata(results, data_directory, url=False):
 

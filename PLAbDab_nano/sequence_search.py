@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 
 from kasearch import AlignSequences, SearchDB
-from PLAbDab_nano.database_search.util import add_url_to_data
-from PLAbDab_nano.database_search.shark_sequence_search import vnar_search, get_metadata
+from PLAbDab_nano.util import add_url_to_data
+from PLAbDab_nano.shark_sequence_search import vnar_search, get_metadata
 
 
 minimum_size_of_results = 1_000_000

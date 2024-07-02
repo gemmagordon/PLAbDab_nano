@@ -17,7 +17,9 @@ class SequenceSearch:
     Methods
     -------
     vhh_seq_search()
-        Search PLAbDab-nano with KA-Search for sequences most similar to the query.
+        Search PLAbDab-nano with KA-Search for sequences most similar to the VHH query.
+    vnar_seq_search()
+        Search PLAbDab-nano with BLAST for sequences most similar to the VNAR query.
     """
 
     def vhh_seq_search(

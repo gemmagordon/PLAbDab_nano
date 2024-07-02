@@ -3,7 +3,8 @@ import json
 import pandas as pd
 import torch
 
-from PLAbDab_nano import SequenceSearch, StructureSearch
+from PLAbDab_nano.sequence_search import SequenceSearch
+from PLAbDab_nano.structure_search import StructureSearch
 from PLAbDab_nano.database_search.util import add_url_to_data
 
 class PLAbDab_nano(SequenceSearch, StructureSearch):

@@ -1,7 +1,7 @@
 import os 
 import pandas as pd
-import PLAbDab_nano.database_search.structure_search_utils as utils
-from PLAbDab_nano.database_search.util import add_url_to_data
+import PLAbDab_nano.structure_search_utils as utils
+from PLAbDab_nano.util import add_url_to_data
 
 class StructureSearch:
 
