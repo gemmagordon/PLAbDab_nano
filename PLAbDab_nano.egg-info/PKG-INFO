@@ -1,0 +1,31 @@
+Metadata-Version: 2.1
+Name: PLAbDab-nano
+Version: 0.0.1
+Summary: Set of functions to scrape Genbank for immune receptor proteins
+Maintainer: Gemma Gordon
+Maintainer-email: gemma.gordon@wolfson.ox.ac.uk
+License: BSD 3-clause license
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: biopython
+Requires-Dist: numba
+Requires-Dist: beautifulsoup4
+Requires-Dist: kasearch
+Requires-Dist: ablang
+Requires-Dist: pandas
+Requires-Dist: pyhmmer
+Requires-Dist: immunebuilder
+
+# PLAbDab_nano
+Code for searching PLAbDab-nano 
+
+Database is currently at (need link for download before make public):
+
+/vols/bitbucket/gordon/plabdabnano
+
+For all entries: all_sequences.csv.gz 
+
+For separated VHH and VNAR entries: vhh_sequences.csv.gz, vnar_sequences.csv.gz
+
+

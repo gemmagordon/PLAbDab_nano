@@ -1,0 +1,9 @@
+numpy
+biopython
+numba
+beautifulsoup4
+kasearch
+ablang
+pandas
+pyhmmer
+immunebuilder

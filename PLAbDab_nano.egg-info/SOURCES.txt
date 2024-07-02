@@ -1,0 +1,16 @@
+LICENSE
+README.md
+setup.py
+PLAbDab_nano/__init__.py
+PLAbDab_nano/database.py
+PLAbDab_nano/region_definitions.py
+PLAbDab_nano/sequence_search.py
+PLAbDab_nano/shark_sequence_search.py
+PLAbDab_nano/structure_search.py
+PLAbDab_nano/structure_search_utils.py
+PLAbDab_nano/util.py
+PLAbDab_nano.egg-info/PKG-INFO
+PLAbDab_nano.egg-info/SOURCES.txt
+PLAbDab_nano.egg-info/dependency_links.txt
+PLAbDab_nano.egg-info/requires.txt
+PLAbDab_nano.egg-info/top_level.txt
