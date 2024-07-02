@@ -2,7 +2,7 @@ import torch
 import pandas as pd
 import re
 import numpy as np
-from PLAbDab_nano.shark_number import Transformer
+from PLAbDab_nano.database_generate.shark_anarcii.model import Transformer
 
 
 start_token, end_token, pad_token = '<SOS>', '<EOS>', '<PAD>'

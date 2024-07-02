@@ -14,3 +14,5 @@ PLAbDab_nano.egg-info/SOURCES.txt
 PLAbDab_nano.egg-info/dependency_links.txt
 PLAbDab_nano.egg-info/requires.txt
 PLAbDab_nano.egg-info/top_level.txt
+PLAbDab_nano/shark_number/__init__.py
+PLAbDab_nano/shark_number/number_shark.py
