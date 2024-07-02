@@ -81,7 +81,8 @@ def number(ls, device=torch.device('cpu')):
 
     model = Transformer.Seq2Seq(enc, dec, tokenised_seq_PAD_IDX, TRG_PAD_IDX, device).to(device)
     #mod_path = './model/shark_model.pt'
-    mod_path = 'PLAbDab_nano/database_generate/shark_anarcii/model/shark_model.pt'
+    #mod_path = 'PLAbDab_nano/database_generate/shark_anarcii/model/shark_model.pt'
+    mod_path = 'PLAbDab_nano/PLAbDab_nano/shark_number/shark_model.pt'
     model.load_state_dict(torch.load(mod_path, map_location=device))
     model.eval()
 
