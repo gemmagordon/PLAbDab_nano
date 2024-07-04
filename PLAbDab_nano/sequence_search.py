@@ -24,13 +24,12 @@ class SequenceSearch:
 
     def vhh_seq_search(
         self, 
-        seqs: dict, 
+        seq: str, 
         keep_best_n: int = 10, 
         seq_identity_cutoff: float = 0.0,
-        sort_by: str = 'average',
         regions=['whole'], 
-        length_matched=[False],  
-        allowed_species=['Human', 'Mouse'], 
+        length_matched=[False],
+        allowed_species=['Any'],   
         url = False,
         n_jobs=5,
     ):
@@ -38,48 +37,44 @@ class SequenceSearch:
         
         Parameters
         ----------
-        seqs : dict of str
-            Heavy chain to search with. If only one chain, search unpaired data.
+        seq : str
+            Heavy chain to search with.
         keep_best_n : int
             Number of closest matches to return (default is 10).
         seq_identity_cutoff : float
             Lowest sequence identity returned (default is 0.0).
-        sort_by : str
-            Sort returned sequences by heavy, light or average (default is average).
         regions : list of str
             Region is search across (default is ['whole']).
         length_matched : list of bool
-            If search only returns regions with the same length as query (default is [False]).  
+            If True search only returns regions with the same length as query (default is [False]).  
         allowed_species : list of str
             Which species to search against (default is ['Human', 'Mouse']).
         url : bool
-            If return results with additional column containing the url for the data (default is False)
+            If True return results with additional column containing the url for the data (default is False)
         n_jobs : int
             Number of threads to use.
             
         """ 
 
-        assert sort_by in ['heavy', 'average'], f"{sort_by} is invalid, use 'heavy' or 'average'"
-        
-        if len(seqs) == 1: 
-            seq = seqs["H"] if "H" in seqs else seqs["L"]
+        if type(seq) == str:
+
             out = search_unpaired(
                 seq, 
                 os.path.join(self.path_to_db, "kasearch_db"), 
                 regions=regions, 
                 length_matched=length_matched,  
-                allowed_species=allowed_species, 
+                allowed_species=allowed_species,
                 keep_best_n=keep_best_n, 
                 seq_identity_cutoff=seq_identity_cutoff,
                 n_jobs=n_jobs,
-            )
+                )
             if url:
                 return add_url_to_data(out)
             else:
                 return out
         
         else:
-            assert False, f"{seqs} needs to be a dict of a single chain."
+            assert False, f"{seq} needs to be a string of a single chain."
 
 
     def vnar_seq_search(
@@ -89,7 +84,7 @@ class SequenceSearch:
         keep_best_n: int = 10, 
         seq_identity_cutoff: float = 0.0, 
         regions='whole', 
-        length_matched=False,
+        length_matched=[False],
         url=False
     ):
         '''
@@ -117,7 +112,7 @@ def search_unpaired(
     db_path, 
     regions=['whole'], 
     length_matched=[False], 
-    allowed_species=['Human', 'Mouse'], 
+    allowed_species=['Any'], 
     keep_best_n=10, 
     seq_identity_cutoff=0.0,
     n_jobs=1,

@@ -52,7 +52,7 @@ def vnar_search(
     keep_best_n: int = 10, 
     seq_identity_cutoff: float = 0.0, 
     regions='whole', 
-    length_matched=False,
+    length_matched=[False],
     url=False
 ):
 
@@ -68,14 +68,16 @@ def vnar_search(
         Lowest sequence identity returned (default is 0.0).
     regions : str
         Region to search across (default is 'whole'). Either whole seq ('whole') or CDR3 ('cdr3').
-    length_matched : bool
-        If True search only returns regions with the same length as query (default is False). 
+    length_matched : list of bool
+        If True search only returns regions with the same length as query (default is [False]). 
+    url : bool 
+        If True return results with additional column containing the url for the data (default is False)
     '''
     # Create/format BLAST database to search against (db will change with updates)
     vnar_db = pd.read_csv(os.path.join(data_directory,"vnar_sequences.csv.gz"))
 
     # Account for is matching lengths specified:
-    if length_matched == True:
+    if length_matched == [True]:
         try:
             filtered_db = vnar_db.loc[vnar_db['sequence'].str.len() == len(seq)] # only use seqs of same length in making db to search against
         except:
