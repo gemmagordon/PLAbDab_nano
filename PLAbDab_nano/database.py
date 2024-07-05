@@ -35,7 +35,7 @@ class PLAbDab_nano(SequenceSearch, StructureSearch):
     def __init__(
         self, 
         path_to_db, 
-        n_jobs = 5, 
+        n_jobs = 1, 
         **kwargs
     ):
         super().__init__(path_to_db)
@@ -72,13 +72,21 @@ class PLAbDab_nano(SequenceSearch, StructureSearch):
                 return add_url_to_data(self.all_sequences)
 
 
-    def sequence_plus_structure_search(self, seqs, rmsd_cutoff = 1.25, seq_identity_cutoff = 0.8, filename = "temp_structure.pdb", url=True):
-        cdr_seq_search = self.vhh_seq_search(seqs, keep_best_n=100000, regions = ['cdrs'],length_matched=[True], seq_identity_cutoff=seq_identity_cutoff, url=url)
-        struc_search = self.structure_search(seqs, rmsd_cutoff = rmsd_cutoff, filename = filename, url = False)
+    def sequence_plus_structure_search(self, 
+                                       sequence: str, 
+                                       keep_best_n: int=20,
+                                       rmsd_cutoff: int=1.25, 
+                                       seq_identity_cutoff: float=0.8, 
+                                       filename: str="temp_structure.pdb", 
+                                       url: bool=True):
+        
+        
+        cdr_seq_search = self.vhh_seq_search(sequence, regions = ['cdrs'], length_matched=[True], seq_identity_cutoff=seq_identity_cutoff, url=url)
+        struc_search = self.structure_search(sequence, rmsd_cutoff = rmsd_cutoff, filename=filename, url=False)
         output = cdr_seq_search[cdr_seq_search.ID.isin(struc_search.ID)]
         output["rmsd"] = struc_search.set_index("ID").loc[output.ID].rmsd.values
 
-        return output.sort_values("rmsd").reset_index(drop=True)
+        return output.sort_values("rmsd").reset_index(drop=True).head(keep_best_n)
 
 
     def column_search(self, term = "antibod", unpaired=True, column=None, url=True, case = False):
