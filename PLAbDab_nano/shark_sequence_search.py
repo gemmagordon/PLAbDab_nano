@@ -130,10 +130,10 @@ def vnar_search(
         keep_best_n = len(results)
 
     # Remove temp files
-    # os.remove(os.path.join(vnar_search_path,'db.fa'))
-    # os.remove(os.path.join(vnar_search_path,'query.fa'))
-    # os.remove(os.path.join(vnar_search_path,'search_results'))
-    # shutil.rmtree(os.path.join(vnar_search_path,'vnar_db'))
+    os.remove(os.path.join(vnar_search_path,'db.fa'))
+    os.remove(os.path.join(vnar_search_path,'query.fa'))
+    os.remove(os.path.join(vnar_search_path,'search_results'))
+    shutil.rmtree(os.path.join(vnar_search_path,'vnar_db'))
 
     # Get metadata
     output = get_metadata(results, data_directory, url)
