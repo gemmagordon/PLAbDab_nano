@@ -13,14 +13,13 @@ class StructureSearch:
         self.all_sequences = pd.read_csv(os.path.join(self.path_to_db, "all_sequences.csv.gz"))
         
     
-    def structure_search(self, seqs, rmsd_cutoff = 10.0, url = False, save_query = False, filename = "temp_structure.pdb"):
+    def structure_search(self, sequence, rmsd_cutoff = 10.0, url=False, save_query=False, filename="temp_structure.pdb"):
         
-        assert ("H" in seqs), f"{seqs} needs to be a dict of a single heavy chain."
         # Get path to models
         model_db_path = os.path.join(self.path_to_db, 'models')
 
         # Model antibody
-        antibody = utils.predict_antibody(seqs)
+        antibody = utils.predict_antibody({'H': sequence})
 
         # Find CDR_lengths
         CDR_length = "_".join(utils.get_CDR_lengths(antibody))
