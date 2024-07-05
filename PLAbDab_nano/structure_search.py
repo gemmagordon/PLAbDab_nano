@@ -19,7 +19,7 @@ class StructureSearch:
         model_db_path = os.path.join(self.path_to_db, 'models')
 
         # Model antibody
-        antibody = utils.predict_antibody({'H', sequence})
+        antibody = utils.predict_antibody({'H': sequence})
 
         # Find CDR_lengths
         CDR_length = "_".join(utils.get_CDR_lengths(antibody))
