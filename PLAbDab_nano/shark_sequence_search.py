@@ -49,7 +49,7 @@ def get_metadata(results, data_directory, url=False):
 def vnar_search(
     seq,
     data_directory, 
-    tempdir,
+    vnar_search_path = 'tmp',
     keep_best_n: int = 10, 
     seq_identity_cutoff: float = 0.0, 
     regions='whole', 
@@ -73,8 +73,8 @@ def vnar_search(
         If True search only returns regions with the same length as query (default is [False]). 
     url : bool 
         If True return results with additional column containing the url for the data (default is False)
-    tempdir : str
-        Path to directory to write BLAST database and results
+    vnar_search_path : str
+        Path to temp directory to write BLAST database and results
     '''
     # Create/format BLAST database to search against (db will change with updates)
     vnar_db = pd.read_csv(os.path.join(data_directory,"vnar_sequences.csv.gz"))
@@ -91,7 +91,8 @@ def vnar_search(
         filtered_db = vnar_db 
 
     # Write seqs to FASTA file
-    vnar_search_path = tempdir #'PLAbDab_nano/PLAbDab_nano/vnar_search/'
+    # vnar_search_path = 'PLAbDab_nano/PLAbDab_nano/vnar_search/'
+    os.mkdir(vnar_search_path)
     with open(str(vnar_search_path+'db.fa'), 'w') as db:
         for entry in filtered_db.iterrows():
             db.write(str('>'+entry[1]['ID']+'\n'))
