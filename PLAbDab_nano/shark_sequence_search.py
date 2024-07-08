@@ -153,6 +153,8 @@ def vnar_search(
     # Process results
     results = pd.read_table(os.path.join(vnar_search_path,'search_results'), sep='\t',header=None).loc[:,1:2]
     results.columns = ['ID', 'Identity']
+    # Normalise identity between 0-1 to match VHH seq search / for web-app 
+    results['Identity'] = results['Identity'].map(lambda Identity: Identity / 100)
     # Sort in order of seq identity
     results = results.sort_values(by='Identity', ascending=False)
 
