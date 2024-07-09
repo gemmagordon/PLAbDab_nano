@@ -81,8 +81,8 @@ class PLAbDab_nano(SequenceSearch, StructureSearch):
                                        url: bool=True):
         
         
-        cdr_seq_search = self.vhh_seq_search(sequence, regions = ['cdrs'], length_matched=[True], seq_identity_cutoff=seq_identity_cutoff, url=url)
-        struc_search = self.structure_search(sequence, rmsd_cutoff = rmsd_cutoff, filename=filename, url=False)
+        cdr_seq_search = self.vhh_seq_search(sequence, keep_best_n=-1, regions = ['cdrs'], length_matched=[True], seq_identity_cutoff=seq_identity_cutoff, url=url)
+        struc_search = self.structure_search(sequence, rmsd_cutoff=rmsd_cutoff, filename=filename, url=False)
         output = cdr_seq_search[cdr_seq_search.ID.isin(struc_search.ID)]
         output["rmsd"] = struc_search.set_index("ID").loc[output.ID].rmsd.values
 
