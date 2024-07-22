@@ -156,7 +156,7 @@ def vnar_search(
     # Normalise identity between 0-1 to match VHH seq search / for web-app 
     results['Identity'] = results['Identity'].map(lambda Identity: Identity / 100)
     # Sort in order of seq identity
-    results = results.sort_values(by='Identity', ascending=False)
+    # results = results.sort_values(by='Identity', ascending=False)
 
     # Deal with if number requested greater than number of results
     if keep_best_n > len(results):
@@ -175,5 +175,5 @@ def vnar_search(
     output = get_metadata(results, data_directory, url)
     
     # Return based on input identity cutoff and number results requested 
-    return output[output['Identity'] >= seq_identity_cutoff][0:keep_best_n].copy()
+    return output[output['Identity'] >= seq_identity_cutoff].copy().sort_values(by='Identity', ascending=False)[0:keep_best_n]
 
