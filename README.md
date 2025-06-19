@@ -43,7 +43,7 @@ Nanobodies are essential proteins of the adaptive immune systems of camelids and
 
 ## Usage
 
-To use the PLAbDab-nano python package you must first download a copy of the database. This can be obtained from  <a href="">here.</a> The file will come in a compressed format. The database columns are as follows: 
+To use the PLAbDab-nano python package you must first download a copy of the database. This can be obtained from  <a href="https://opig.stats.ox.ac.uk/webapps/plabdab-nano/">here.</a> The file will come in a compressed format. The database columns are as follows: 
 
 | Column name       | Contents                                                                                                                                                               |
 |-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -83,15 +83,21 @@ $ pip install .
 
 ## Citing this work
 
-The code and data in this package is based on the <a href="">following paper.</a> If you use it, please cite:
+The code and data in this package is based on the <a href="https://doi.org/10.1093/nar/gkae881">following paper.</a> If you use it, please cite:
 
 ```tex
-@article{gordon2024,
-  title={PLAbDab-nano: a database of camelid and shark nanobodies from patents and literature},
-  author={},
-  journal={bioRxiv},
-  pages={},
-  year={2024},
-  publisher={Cold Spring Harbor Laboratory}
+@article{Gordon2024,
+  title = {PLAbDab-nano: a database of camelid and shark nanobodies from patents and literature},
+  volume = {53},
+  ISSN = {1362-4962},
+  url = {http://dx.doi.org/10.1093/nar/gkae881},
+  DOI = {10.1093/nar/gkae881},
+  number = {D1},
+  journal = {Nucleic Acids Research},
+  publisher = {Oxford University Press (OUP)},
+  author = {Gordon,  Gemma L and Greenshields-Watson,  Alexander and Agarwal,  Parth and Wong,  Ashley and Boyles,  Fergus and Hummer,  Alissa and Lujan Hernandez,  Ana G and Deane,  Charlotte M},
+  year = {2024},
+  month = oct,
+  pages = {D535–D542}
 }
 ```
