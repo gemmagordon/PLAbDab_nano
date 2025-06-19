@@ -41,7 +41,7 @@ def get_metadata(results, data_directory, url=False):
     if url:
         output = add_url_to_data(output)
 
-    output['Seq identity (%)'] = results.Identity
+    output['Identity'] = results.Identity
 
     return output
 
@@ -49,6 +49,7 @@ def get_metadata(results, data_directory, url=False):
 def vnar_search(
     seq,
     data_directory, 
+    vnar_search_path = 'tmp',
     keep_best_n: int = 10, 
     seq_identity_cutoff: float = 0.0, 
     regions='whole', 
@@ -72,6 +73,8 @@ def vnar_search(
         If True search only returns regions with the same length as query (default is [False]). 
     url : bool 
         If True return results with additional column containing the url for the data (default is False)
+    vnar_search_path : str
+        Path to temp directory to write BLAST database and results
     '''
     # Create/format BLAST database to search against (db will change with updates)
     vnar_db = pd.read_csv(os.path.join(data_directory,"vnar_sequences.csv.gz"))
@@ -88,8 +91,16 @@ def vnar_search(
         filtered_db = vnar_db 
 
     # Write seqs to FASTA file
-    vnar_search_path = 'PLAbDab_nano/PLAbDab_nano/vnar_search/'
-    with open(str(vnar_search_path+'db.fa'), 'w') as db:
+    # vnar_search_path = 'PLAbDab_nano/PLAbDab_nano/vnar_search/'
+    
+    # Don't want to delete the directory if it already exists!
+    remove_tempdir = True
+    if os.path.exists(vnar_search_path):
+        remove_tempdir = False
+    else:
+        os.makedirs(vnar_search_path)
+        
+    with open(os.path.join(vnar_search_path, 'db.fa'), 'w') as db:
         for entry in filtered_db.iterrows():
             db.write(str('>'+entry[1]['ID']+'\n'))
             # Account for if region specified - whole seq or CDR3 only
@@ -100,30 +111,52 @@ def vnar_search(
                 db.write(str(cdr3+'\n'))
     
     # Create BLAST db with FASTA file 
-    make_db = str('makeblastdb -in '+vnar_search_path+'db.fa -dbtype prot -parse_seqids -out '+vnar_search_path+'vnar_db/vnar_db')
-    subprocess.run(make_db, shell=True, stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
-    
+    cmd = [
+        'makeblastdb',
+        '-in', os.path.join(vnar_search_path, 'db.fa'),
+        '-dbtype', 'prot',
+        '-parse_seqids',
+        '-out', os.path.join(vnar_search_path, 'vnar_db', 'vnar_db')
+    ]
+    #make_db = str('makeblastdb -in '+vnar_search_path+'db.fa' + '-dbtype prot -parse_seqids -out '+vnar_search_path+'vnar_db/vnar_db')
+    p = subprocess.run(cmd, capture_output=True)
+    if p.returncode:
+        print(p.stderr)
+        exit()
+        
     # Turn query into FASTA file
     if regions == 'whole':
-        with open(str(vnar_search_path+'query.fa'), 'w') as query:
+        with open(os.path.join(vnar_search_path,'query.fa'), 'w') as query:
             query.write(str('>query'+'\n'))
             query.write(str(seq+'\n'))
     if regions == 'cdr3':
         # Pull out CDR3 from query 
         cdr3 = ast.literal_eval(get_vnar_annotation(seq)[0])['CDRH3']
-        with open(str(vnar_search_path+'query.fa'), 'w') as query:
+        with open(os.path.join(vnar_search_path,'query.fa'), 'w') as query:
             query.write(str('>query'+'\n'))
             query.write(str(cdr3+'\n'))
     
     # Run query against database
-    run_search = str('blastp -query '+vnar_search_path+'query.fa -db '+vnar_search_path+'vnar_db/vnar_db -outfmt 6 -out '+vnar_search_path+'search_results')
-    subprocess.run(run_search,shell=True, stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
-    
+    cmd = [
+        'blastp',
+        '-query', os.path.join(vnar_search_path, 'query.fa'),
+        '-db', os.path.join(vnar_search_path, 'vnar_db', 'vnar_db'),
+        '-outfmt', '6',
+        '-out', os.path.join(vnar_search_path, 'search_results')
+    ]
+    #run_search = str('blastp -query '+vnar_search_path+'query.fa -db '+vnar_search_path+'vnar_db/vnar_db -outfmt 6 -out '+vnar_search_path+'search_results')
+    p = subprocess.run(cmd, capture_output=True)
+    if p.returncode:
+        print(p.stderr)
+        exit()
+            
     # Process results
     results = pd.read_table(os.path.join(vnar_search_path,'search_results'), sep='\t',header=None).loc[:,1:2]
     results.columns = ['ID', 'Identity']
+    # Normalise identity between 0-1 to match VHH seq search / for web-app 
+    results['Identity'] = results['Identity'].map(lambda Identity: Identity / 100)
     # Sort in order of seq identity
-    results = results.sort_values(by='Identity', ascending=False)
+    # results = results.sort_values(by='Identity', ascending=False)
 
     # Deal with if number requested greater than number of results
     if keep_best_n > len(results):
@@ -133,11 +166,14 @@ def vnar_search(
     os.remove(os.path.join(vnar_search_path,'db.fa'))
     os.remove(os.path.join(vnar_search_path,'query.fa'))
     os.remove(os.path.join(vnar_search_path,'search_results'))
-    shutil.rmtree(os.path.join(vnar_search_path,'vnar_db'))
+    
+    if not shutil.rmtree.avoids_symlink_attacks: 
+        raise RuntimeError("rmtree is not safe on this Platform")        
+    shutil.rmtree(os.path.join(vnar_search_path,'vnar_db'))        
 
     # Get metadata
     output = get_metadata(results, data_directory, url)
     
     # Return based on input identity cutoff and number results requested 
-    return output[output['Seq identity (%)'] >= seq_identity_cutoff][0:keep_best_n].copy()
+    return output[output['Identity'] >= seq_identity_cutoff].copy().sort_values(by='Identity', ascending=False)[0:keep_best_n]
 

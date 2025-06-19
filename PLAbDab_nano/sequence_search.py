@@ -80,7 +80,8 @@ class SequenceSearch:
     def vnar_seq_search(
         self,
         seq,
-        data_directory, 
+        data_directory,
+        vnar_search_path='tmp',
         keep_best_n: int = 10, 
         seq_identity_cutoff: float = 0.0, 
         regions='whole', 
@@ -95,6 +96,7 @@ class SequenceSearch:
             out = vnar_search(
                 seq, 
                 data_directory=data_directory,
+                vnar_search_path=vnar_search_path,
                 keep_best_n=keep_best_n,
                 seq_identity_cutoff=seq_identity_cutoff,
                 regions=regions, 
