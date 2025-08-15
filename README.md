@@ -1,6 +1,6 @@
 # PLAbDab_nano
 
-The database can be downloaded <ahref="[https://github.com/oxpig/kasearch](https://opig.stats.ox.ac.uk/webapps/plabdab-nano/)">here</a>
+The database can be downloaded <a href="[https://github.com/oxpig/kasearch](https://opig.stats.ox.ac.uk/webapps/plabdab-nano/)">here</a>
 
 - For all entries: all_sequences.csv.gz 
 - For separated VHH and VNAR entries: vhh_sequences.csv.gz, vnar_sequences.csv.gz
