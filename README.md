@@ -1,13 +1,9 @@
 # PLAbDab_nano
-Code for searching PLAbDab-nano 
 
-Database is currently at (need link for download before make public):
+The database can be downloaded <ahref="[https://github.com/oxpig/kasearch](https://opig.stats.ox.ac.uk/webapps/plabdab-nano/)">here</a>
 
-/vols/bitbucket/gordon/plabdabnano
-
-For all entries: all_sequences.csv.gz 
-
-For separated VHH and VNAR entries: vhh_sequences.csv.gz, vnar_sequences.csv.gz
+- For all entries: all_sequences.csv.gz 
+- For separated VHH and VNAR entries: vhh_sequences.csv.gz, vnar_sequences.csv.gz
 
 **still requires shark models for search - for VNAR annotation - may need to change before can make public (depends on ANARCII release)**
 
@@ -17,8 +13,6 @@ model at:
 needs to be in: 
 PLAbDab-nano_project/test_repos/PLAbDab_nano/PLAbDab_nano/shark_number
 
-add link to web-app download once exists
-add link to preprint & bibtex reference for it once exists
 
 ---
 
